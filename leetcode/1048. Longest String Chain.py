@@ -1,3 +1,24 @@
+#using dynamic programming
+from collections import defaultdict
+
+class Solution:
+    def longestStrChain(self, words: List[str]) -> int:
+        l_c = defaultdict(lambda:0)
+        l_c[''] = 0
+        
+        #sort words according to length in ascending order,
+        #build dp memory in bottom up fashion
+        words.sort(key=lambda w : len(w))
+        
+        for w in words:
+            for i in range(len(w)):
+                sub_str = w[:i]+w[i+1:]
+                if(sub_str in l_c):
+                    l_c[w] = max(l_c[w], 1+l_c[sub_str])
+            l_c[w] = max(l_c[w], 1)
+        return max(l_c.values())
+                    
+#conventional recursive sol
 class Solution:
 def get_longest_chain(self, word, sub_arr):
     if(sub_arr==[]):
